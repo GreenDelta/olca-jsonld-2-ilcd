@@ -1,0 +1,1 @@
+{"@context":"http://greendelta.github.io/olca-schema/context.jsonld","@type":"Category","@id":"133ccead-8cd0-3718-b0c6-2450cbfcb040","name":"Sub","version":"00.00.000","category":{"@type":"Category","@id":"65741ebf-e72b-37db-8b07-4f111ca4cf42","name":"Main"},"modelType":"ACTOR"}

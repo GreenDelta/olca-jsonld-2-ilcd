@@ -54,7 +54,10 @@ class UnitGroupConverter implements Converter<UnitGroup> {
 		for (JsonElement element : unitArray) {
 			if (!element.isJsonObject())
 				continue;
-			Unit unit = createUnit(element.getAsJsonObject(), pos++);
+			Unit unit = createUnit(element.getAsJsonObject(), pos);
+			if (unit.id != 0) {
+				pos++;
+			}
 			units.add(unit);
 		}
 	}

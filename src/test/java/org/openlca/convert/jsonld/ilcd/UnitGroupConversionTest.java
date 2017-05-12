@@ -40,8 +40,8 @@ public class UnitGroupConversionTest {
 		Assert.assertEquals(3, units.size());
 		Assert.assertEquals(0, group.unitGroupInfo.quantitativeReference.referenceUnit);
 		assertUnit(units, 0, 1, "unit1", 2, "a first unit");
-		assertUnit(units, 1, 2, "unit2", 3, "a second unit");
-		assertUnit(units, 2, 0, "refUnit", 1, "the reference unit");
+		assertUnit(units, 1, 0, "refUnit", 1, "the reference unit");
+		assertUnit(units, 2, 2, "unit2", 3, "a second unit");
 		Assert.assertEquals(1, info.classifications.size());
 		Utils.assertClassification(info.classifications.get(0),
 				"Main", "7c77b6b5-796f-3a0a-b781-85f664984e38",

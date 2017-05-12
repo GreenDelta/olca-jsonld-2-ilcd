@@ -17,7 +17,7 @@ public class UnitGroupConversionTest {
 	public void minimal() {
 		UnitGroup group = convert("minimal", "fcc2440b-80c2-4fff-b2e1-bff41c551ecb");
 		Assert.assertEquals("fcc2440b-80c2-4fff-b2e1-bff41c551ecb", group.getUUID());
-		Assert.assertEquals("Unit group", group.getName().get(0).value);
+		Utils.assertLangString(group.getName(), "Unit group");
 		Assert.assertEquals("00.00.000", group.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-12T09:58:26.295+02:00", group.adminInfo.dataEntry.timeStamp.toString());
 		List<Unit> units = group.unitList.units;
@@ -31,7 +31,7 @@ public class UnitGroupConversionTest {
 	public void complete() {
 		UnitGroup group = convert("complete", "77242196-8b88-443f-9b22-4030ff6c21f3");
 		Assert.assertEquals("77242196-8b88-443f-9b22-4030ff6c21f3", group.getUUID());
-		Assert.assertEquals("Unit group", group.getName().get(0).value);
+		Utils.assertLangString(group.getName(), "Unit group");
 		Assert.assertEquals("00.00.002", group.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-12T10:02:39.987+02:00", group.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = group.unitGroupInfo.dataSetInfo;

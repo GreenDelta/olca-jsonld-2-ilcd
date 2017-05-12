@@ -15,7 +15,7 @@ public class FlowPropertyConversionTest {
 	public void minimal() {
 		FlowProperty property = convert("minimal", "f7709d96-c05c-42b4-b5e1-945daf582a20");
 		Assert.assertEquals("f7709d96-c05c-42b4-b5e1-945daf582a20", property.getUUID());
-		Assert.assertEquals("Flow property", property.getName().get(0).value);
+		Utils.assertLangString(property.getName(), "Flow property");
 		Assert.assertEquals("00.00.000", property.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-12T09:58:53.034+02:00", property.adminInfo.dataEntry.timeStamp.toString());
 		Ref unitGroupRef = property.flowPropertyInfo.quantitativeReference.unitGroup;
@@ -28,7 +28,7 @@ public class FlowPropertyConversionTest {
 	public void complete() {
 		FlowProperty property = convert("complete", "4cb61669-4853-4556-9667-4a4a22d3f169");
 		Assert.assertEquals("4cb61669-4853-4556-9667-4a4a22d3f169", property.getUUID());
-		Assert.assertEquals("Flow property", property.getName().get(0).value);
+		Utils.assertLangString(property.getName(), "Flow property");
 		Assert.assertEquals("00.00.000", property.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-12T10:02:34.516+02:00", property.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = property.flowPropertyInfo.dataSetInfo;

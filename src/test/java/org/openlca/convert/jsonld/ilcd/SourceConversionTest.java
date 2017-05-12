@@ -14,7 +14,7 @@ public class SourceConversionTest {
 	public void minimal() {
 		Source source = convert("minimal", "71df7790-40c1-47ed-8b8d-90a0b67bd8c0");
 		Assert.assertEquals("71df7790-40c1-47ed-8b8d-90a0b67bd8c0", source.getUUID());
-		Assert.assertEquals("Source", source.getName().get(0).value);
+		Utils.assertLangString(source.getName(), "Source");
 		Assert.assertEquals("00.00.000", source.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-11T15:15:14.846+02:00", source.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = source.sourceInfo.dataSetInfo;
@@ -25,7 +25,7 @@ public class SourceConversionTest {
 	public void complete() {
 		Source source = convert("complete", "c2f54cb9-d152-4137-8ad7-871598478578");
 		Assert.assertEquals("c2f54cb9-d152-4137-8ad7-871598478578", source.getUUID());
-		Assert.assertEquals("Source", source.getName().get(0).value);
+		Utils.assertLangString(source.getName(), "Source");
 		Assert.assertEquals("00.00.002", source.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-11T15:11:23.334+02:00", source.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = source.sourceInfo.dataSetInfo;

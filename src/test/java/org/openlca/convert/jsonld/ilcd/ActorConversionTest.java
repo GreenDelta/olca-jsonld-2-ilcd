@@ -14,7 +14,7 @@ public class ActorConversionTest {
 	public void minimal() {
 		Contact contact = convert("minimal", "1cd119a4-ad82-4cb4-9cad-9ccb0d70b14e");
 		Assert.assertEquals("1cd119a4-ad82-4cb4-9cad-9ccb0d70b14e", contact.getUUID());
-		Assert.assertEquals("Actor", contact.getName().get(0).value);
+		Utils.assertLangString(contact.getName(), "Actor");
 		Assert.assertEquals("00.00.000", contact.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-11T11:55:07.652+02:00", contact.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = contact.contactInfo.dataSetInfo;
@@ -26,7 +26,7 @@ public class ActorConversionTest {
 	public void complete() {
 		Contact contact = convert("complete", "9fa11715-b484-436a-b01d-6d2af234c1c7");
 		Assert.assertEquals("9fa11715-b484-436a-b01d-6d2af234c1c7", contact.getUUID());
-		Assert.assertEquals("Actor", contact.getName().get(0).value);
+		Utils.assertLangString(contact.getName(), "Actor");
 		Assert.assertEquals("00.00.002", contact.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-11T11:50:33.055+02:00", contact.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = contact.contactInfo.dataSetInfo;

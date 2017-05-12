@@ -1,0 +1,1 @@
+{"@context":"http://greendelta.github.io/olca-schema/context.jsonld","@type":"Category","@id":"fbf7df2f-5b76-3edc-b615-837c50e45583","name":"Sub","version":"00.00.000","category":{"@type":"Category","@id":"7c77b6b5-796f-3a0a-b781-85f664984e38","name":"Main"},"modelType":"UNIT_GROUP"}

@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.openlca.ilcd.commons.Category;
 import org.openlca.ilcd.commons.Classification;
 import org.openlca.ilcd.commons.LangString;
+import org.openlca.ilcd.commons.Ref;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -53,7 +54,11 @@ class Utils {
 			LangString value = list.get(i);
 			Assert.assertEquals(values[i], value.value);
 		}
+	}
 
+	static void assertRef(Ref ref, String uuid, String name) {
+		Assert.assertEquals(uuid, ref.uuid);
+		assertLangString(ref.name, name);
 	}
 
 	static void assertNull(Object... values) {

@@ -1,0 +1,1 @@
+{"@context":"http://greendelta.github.io/olca-schema/context.jsonld","@type":"FlowProperty","@id":"f7709d96-c05c-42b4-b5e1-945daf582a20","name":"Flow property","description":"","version":"00.00.000","lastChange":"2017-05-12T09:58:53.034+02:00","flowPropertyType":"PHYSICAL_QUANTITY","unitGroup":{"@type":"UnitGroup","@id":"fcc2440b-80c2-4fff-b2e1-bff41c551ecb","name":"Unit group"}}

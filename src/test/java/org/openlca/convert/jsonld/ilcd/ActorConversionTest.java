@@ -30,14 +30,12 @@ public class ActorConversionTest {
 		Assert.assertEquals("00.00.002", contact.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-11T11:50:33.055+02:00", contact.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = contact.contactInfo.dataSetInfo;
-		Assert.assertEquals(1, info.description.size());
-		Assert.assertEquals("This is a complete actor", info.description.get(0).value);
+		Utils.assertLangString(info.description, "This is a complete actor");
 		Assert.assertEquals("actor@greendelta.com", info.email);
 		Assert.assertEquals("+4930123321", info.telefax);
 		Assert.assertEquals("+4930321123", info.telephone);
 		Assert.assertEquals("http://somewebsite.com", info.wwwAddress);
-		Assert.assertEquals(1, info.contactAddress.size());
-		Assert.assertEquals("Müllerstraße 135, 11111 Berlin", info.contactAddress.get(0).value);
+		Utils.assertLangString(info.contactAddress, "Müllerstraße 135, 11111 Berlin");
 		Assert.assertEquals(1, info.classifications.size());
 		Utils.assertClassification(info.classifications.get(0),
 				"Main", "65741ebf-e72b-37db-8b07-4f111ca4cf42",

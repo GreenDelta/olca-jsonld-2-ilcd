@@ -4,10 +4,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.openlca.ilcd.commons.Category;
 import org.openlca.ilcd.commons.Classification;
-
-import junit.framework.Assert;
+import org.openlca.ilcd.commons.LangString;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -44,6 +45,15 @@ class Utils {
 		Assert.assertEquals(cat2Name, cat2.value);
 		Assert.assertEquals(cat2Id, cat2.classId);
 		Assert.assertEquals(1, cat2.level);
+	}
+
+	static void assertLangString(List<LangString> list, String... values) {
+		Assert.assertEquals(values.length, list.size());
+		for (int i = 0; i < values.length; i++) {
+			LangString value = list.get(i);
+			Assert.assertEquals(values[i], value.value);
+		}
+
 	}
 
 	static void assertNull(Object... values) {

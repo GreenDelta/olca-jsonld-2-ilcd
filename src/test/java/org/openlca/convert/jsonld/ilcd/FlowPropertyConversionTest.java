@@ -18,6 +18,10 @@ public class FlowPropertyConversionTest {
 		Assert.assertEquals("Flow property", property.getName().get(0).value);
 		Assert.assertEquals("00.00.000", property.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-12T09:58:53.034+02:00", property.adminInfo.dataEntry.timeStamp.toString());
+		Ref unitGroupRef = property.flowPropertyInfo.quantitativeReference.unitGroup;
+		Utils.assertRef(unitGroupRef, "fcc2440b-80c2-4fff-b2e1-bff41c551ecb", "Unit group");
+		DataSetInfo info = property.flowPropertyInfo.dataSetInfo;
+		Utils.assertNull(info.classifications.get(0).categories);
 	}
 
 	@Test

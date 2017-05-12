@@ -18,7 +18,7 @@ public class SourceConversionTest {
 		Assert.assertEquals("00.00.000", source.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-11T15:15:14.846+02:00", source.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = source.sourceInfo.dataSetInfo;
-		Utils.assertNull(info.description, info.citation);
+		Utils.assertNull(info.description, info.citation, info.classifications.get(0).categories);
 	}
 
 	@Test

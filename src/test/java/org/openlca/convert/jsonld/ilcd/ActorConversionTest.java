@@ -19,7 +19,7 @@ public class ActorConversionTest {
 		Assert.assertEquals("2017-05-11T11:55:07.652+02:00", contact.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = contact.contactInfo.dataSetInfo;
 		Utils.assertNull(info.email, info.telefax, info.telephone, info.wwwAddress, info.description,
-				info.contactAddress);
+				info.contactAddress, info.classifications.get(0).categories);
 	}
 
 	@Test

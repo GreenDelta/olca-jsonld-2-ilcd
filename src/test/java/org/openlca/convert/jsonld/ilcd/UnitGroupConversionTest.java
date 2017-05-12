@@ -24,6 +24,7 @@ public class UnitGroupConversionTest {
 		Assert.assertEquals(1, units.size());
 		Assert.assertEquals(0, group.unitGroupInfo.quantitativeReference.referenceUnit);
 		assertUnit(units, 0, 0, "unit", 1, null);
+		Utils.assertNull(group.unitGroupInfo.dataSetInfo.classifications.get(0).categories);
 	}
 
 	@Test

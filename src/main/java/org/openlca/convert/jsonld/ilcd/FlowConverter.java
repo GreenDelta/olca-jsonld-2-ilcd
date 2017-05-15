@@ -25,7 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class FlowConverter implements Converter<Flow> {
+class FlowConverter implements Converter<Flow> {
 
 	private final Util util;
 

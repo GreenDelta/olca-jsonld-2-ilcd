@@ -1,5 +1,6 @@
 package org.openlca.convert.jsonld.ilcd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openlca.ilcd.commons.Category;
@@ -14,11 +15,11 @@ import org.openlca.ilcd.flows.Flow;
 import org.openlca.ilcd.flows.FlowCategoryInfo;
 import org.openlca.ilcd.flows.FlowInfo;
 import org.openlca.ilcd.flows.FlowName;
+import org.openlca.ilcd.flows.FlowPropertyList;
 import org.openlca.ilcd.flows.FlowPropertyRef;
 import org.openlca.ilcd.flows.Geography;
 import org.openlca.ilcd.flows.LCIMethod;
 import org.openlca.ilcd.flows.Modelling;
-import org.openlca.ilcd.util.Flows;
 import org.openlca.ilcd.util.Refs;
 
 import com.google.gson.JsonArray;
@@ -44,7 +45,8 @@ class FlowConverter implements Converter<Flow> {
 		flow.flowInfo.dataSetInfo = createDataSetInfo(obj);
 		flow.flowInfo.geography = createGeography(obj);
 		flow.modelling = createModelling(obj);
-		addFlowProperties(flow, obj);
+		flow.flowPropertyList = new FlowPropertyList();
+		flow.flowPropertyList.flowProperties.addAll(createFlowProperties(obj));
 		return flow;
 	}
 
@@ -99,25 +101,24 @@ class FlowConverter implements Converter<Flow> {
 		return entry;
 	}
 
-	private void addFlowProperties(Flow flow, JsonObject obj) {
-		List<FlowPropertyRef> properties = Flows.flowProperties(flow);
+	private List<FlowPropertyRef> createFlowProperties(JsonObject obj) {
+		List<FlowPropertyRef> properties = new ArrayList<>();
 		JsonArray unitArray = In.getArray(obj, "flowProperties");
 		if (unitArray == null)
-			return;
+			return properties;
 		int pos = 1;
 		for (JsonElement element : unitArray) {
-			if (!element.isJsonObject())
-				continue;
 			FlowPropertyRef property = createFlowPropertyRef(element.getAsJsonObject(), pos);
 			if (property.dataSetInternalID != 0) {
 				pos++;
 			}
 			properties.add(property);
 		}
+		return properties;
 	}
 
 	private FlowPropertyRef createFlowPropertyRef(JsonObject factor, int pos) {
-		JsonObject property = In.getRef(factor, "flowProperty", util.store);
+		JsonObject property = In.getObject(factor, "flowProperty");
 		FlowPropertyRef propRef = new FlowPropertyRef();
 		propRef.flowProperty = util.createRef(property);
 		if (In.getBool(factor, "referenceFlowProperty"))
@@ -129,7 +130,7 @@ class FlowConverter implements Converter<Flow> {
 	}
 
 	private Geography createGeography(JsonObject obj) {
-		JsonObject location = In.getRef(obj, "location", util.store);
+		JsonObject location = In.getRef(obj, "location", util.config.store);
 		if (location == null)
 			return null;
 		Geography geography = new Geography();
@@ -138,11 +139,11 @@ class FlowConverter implements Converter<Flow> {
 	}
 
 	private Modelling createModelling(JsonObject obj) {
-		Modelling mav = new Modelling();
+		Modelling modelling = new Modelling();
 		LCIMethod method = new LCIMethod();
-		mav.lciMethod = method;
+		modelling.lciMethod = method;
 		method.flowType = getFlowType(obj);
-		return mav;
+		return modelling;
 	}
 
 	private FlowType getFlowType(JsonObject obj) {

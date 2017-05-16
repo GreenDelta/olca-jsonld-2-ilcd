@@ -1,5 +1,6 @@
 package org.openlca.convert.jsonld.ilcd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openlca.ilcd.units.AdminInfo;
@@ -8,8 +9,8 @@ import org.openlca.ilcd.units.QuantitativeReference;
 import org.openlca.ilcd.units.Unit;
 import org.openlca.ilcd.units.UnitGroup;
 import org.openlca.ilcd.units.UnitGroupInfo;
+import org.openlca.ilcd.units.UnitList;
 import org.openlca.ilcd.util.UnitExtension;
-import org.openlca.ilcd.util.UnitGroups;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,7 +18,7 @@ import com.google.gson.JsonObject;
 
 class UnitGroupConverter implements Converter<UnitGroup> {
 
-	private Util util;
+	private final Util util;
 
 	UnitGroupConverter(Util util) {
 		this.util = util;
@@ -32,7 +33,8 @@ class UnitGroupConverter implements Converter<UnitGroup> {
 		group.unitGroupInfo = new UnitGroupInfo();
 		group.unitGroupInfo.dataSetInfo = createDataSetInfo(obj);
 		group.unitGroupInfo.quantitativeReference = new QuantitativeReference();
-		addUnits(group, obj);
+		group.unitList = new UnitList();
+		group.unitList.units.addAll(createUnits(obj));
 		return group;
 	}
 
@@ -45,21 +47,20 @@ class UnitGroupConverter implements Converter<UnitGroup> {
 		return dataSetInfo;
 	}
 
-	private void addUnits(UnitGroup unitGroup, JsonObject obj) {
-		List<Unit> units = UnitGroups.units(unitGroup);
+	private List<Unit> createUnits(JsonObject obj) {
+		List<Unit> units = new ArrayList<>();
 		JsonArray unitArray = In.getArray(obj, "units");
 		if (unitArray == null)
-			return;
+			return units;
 		int pos = 1;
 		for (JsonElement element : unitArray) {
-			if (!element.isJsonObject())
-				continue;
 			Unit unit = createUnit(element.getAsJsonObject(), pos);
 			if (unit.id != 0) {
 				pos++;
 			}
 			units.add(unit);
 		}
+		return units;
 	}
 
 	private Unit createUnit(JsonObject obj, int pos) {

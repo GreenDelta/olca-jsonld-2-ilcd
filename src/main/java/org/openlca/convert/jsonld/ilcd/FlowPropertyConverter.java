@@ -1,6 +1,5 @@
 package org.openlca.convert.jsonld.ilcd;
 
-import org.openlca.ilcd.commons.Ref;
 import org.openlca.ilcd.flowproperties.AdminInfo;
 import org.openlca.ilcd.flowproperties.DataSetInfo;
 import org.openlca.ilcd.flowproperties.FlowProperty;
@@ -41,9 +40,8 @@ class FlowPropertyConverter implements Converter<FlowProperty> {
 
 	private QuantitativeReference createUnitGroupRef(JsonObject obj) {
 		QuantitativeReference qRef = new QuantitativeReference();
-		JsonObject unitGroup = In.getRef(obj, "unitGroup", util.store);
-		Ref ref = util.createRef(unitGroup);
-		qRef.unitGroup = ref;
+		JsonObject unitGroup = In.getObject(obj, "unitGroup");
+		qRef.unitGroup = util.createRef(unitGroup);
 		return qRef;
 	}
 

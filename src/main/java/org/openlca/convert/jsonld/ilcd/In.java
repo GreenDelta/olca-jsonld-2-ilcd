@@ -1,9 +1,11 @@
 package org.openlca.convert.jsonld.ilcd;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.function.Function;
 
-import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -22,12 +24,25 @@ final class In {
 
 	static String getString(JsonObject obj, String property) {
 		JsonPrimitive elem = getPrimitive(obj, property);
-		return elem == null ? null : elem.getAsString();
+		if (elem == null)
+			return null;
+		String value = elem.getAsString();
+		return value == null || value.isEmpty() ? null : value;
 	}
 
 	static Integer getInt(JsonObject obj, String property) {
 		JsonPrimitive elem = getPrimitive(obj, property);
 		return elem == null ? null : elem.getAsInt();
+	}
+
+	static Long getLong(JsonObject obj, String property) {
+		JsonPrimitive elem = getPrimitive(obj, property);
+		return elem == null ? null : elem.getAsLong();
+	}
+
+	static Double getDouble(JsonObject obj, String property) {
+		JsonPrimitive elem = getPrimitive(obj, property);
+		return elem == null ? null : elem.getAsDouble();
 	}
 
 	static double getDouble(JsonObject obj, String property, double defaultValue) {
@@ -40,6 +55,14 @@ final class In {
 		return elem == null ? false : elem.getAsBoolean();
 	}
 
+	static Date getDate(JsonObject obj, String property) {
+		String date = getString(obj, property);
+		if (date == null)
+			return null;
+		Calendar cal = DatatypeConverter.parseDateTime(date);
+		return cal == null ? null : cal.getTime();
+	}
+
 	static JsonObject getRef(JsonObject obj, String property, JsonStore store) {
 		JsonObject ref = getObject(obj, property);
 		if (ref == null)
@@ -47,11 +70,6 @@ final class In {
 		String type = getString(ref, "@type");
 		String id = getString(ref, "@id");
 		return store.get(type, id);
-	}
-
-	public static void main(String[] args) throws DatatypeConfigurationException {
-		GregorianCalendar cal = new GregorianCalendar();
-		System.out.println(DatatypeFactory.newInstance().newXMLGregorianCalendar(cal));
 	}
 
 	static XMLGregorianCalendar getTimestamp(JsonObject obj, String property) {
@@ -62,6 +80,23 @@ final class In {
 			return null;
 		try {
 			return DatatypeFactory.newInstance().newXMLGregorianCalendar(value);
+		} catch (Exception e) {
+			Logger log = LoggerFactory.getLogger(In.class);
+			log.error("failed to create XML calendar for time " + value, e);
+			return null;
+		}
+	}
+
+	static XMLGregorianCalendar getTime(JsonObject obj, String property) {
+		if (obj == null)
+			return null;
+		Long value = getLong(obj, property);
+		if (value == null)
+			return null;
+		try {
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTimeInMillis(value);
+			return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
 		} catch (Exception e) {
 			Logger log = LoggerFactory.getLogger(In.class);
 			log.error("failed to create XML calendar for time " + value, e);

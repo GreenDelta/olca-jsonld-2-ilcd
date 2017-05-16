@@ -14,28 +14,19 @@ import org.openlca.ilcd.util.Refs;
 
 import com.google.gson.JsonObject;
 
-public class Util {
+class Util {
 
-	public final String baseUri;
-	public final String lang;
-	public final JsonStore store;
+	final Config config;
 
-	public Util(String baseUri, String lang, JsonStore store) {
-		this.lang = lang != null ? lang : "en";
-		if (baseUri == null) {
-			baseUri = "http://openlca.org/ilcd/resource/";
-		} else if (!baseUri.endsWith("/")) {
-			baseUri += "/";
-		}
-		this.baseUri = baseUri;
-		this.store = store;
+	Util(Config config) {
+		this.config = config;
 	}
 
 	Publication createPublication(JsonObject obj) {
 		Publication pub = new Publication();
 		pub.version = In.getString(obj, "version");
 		String uriPart = getUriPart(getType(obj));
-		pub.uri = baseUri + uriPart + "/" + In.getString(obj, "@id");
+		pub.uri = config.baseUri + uriPart + "/" + In.getString(obj, "@id");
 		return pub;
 	}
 
@@ -48,7 +39,7 @@ public class Util {
 
 	Classification createClassification(JsonObject obj) {
 		CategoryConverter converter = new CategoryConverter(this);
-		JsonObject category = In.getRef(obj, "category", store);
+		JsonObject category = In.getRef(obj, "category", config.store);
 		return converter.run(category);
 	}
 
@@ -59,9 +50,9 @@ public class Util {
 	}
 
 	Ref createRef(JsonObject obj) {
-		Ref ref = new Ref();
 		if (obj == null)
-			return ref;
+			return null;
+		Ref ref = new Ref();
 		ref.version = "01.00.000";
 		ref.uuid = In.getString(obj, "@id");
 		ref.type = getType(obj);
@@ -70,7 +61,7 @@ public class Util {
 		return ref;
 	}
 
-	private DataSetType getType(JsonObject obj) {
+	DataSetType getType(JsonObject obj) {
 		String type = In.getString(obj, "@type");
 		switch (type) {
 		case "Actor":
@@ -90,7 +81,7 @@ public class Util {
 		}
 	}
 
-	private String getUriPart(DataSetType type) {
+	String getUriPart(DataSetType type) {
 		switch (type) {
 		case CONTACT:
 			return "contacts";
@@ -112,7 +103,7 @@ public class Util {
 	void setLangString(List<LangString> list, String value) {
 		if (value == null || value.isEmpty())
 			return;
-		LangString.set(list, value, lang);
+		LangString.set(list, value, config.lang);
 	}
 
 }

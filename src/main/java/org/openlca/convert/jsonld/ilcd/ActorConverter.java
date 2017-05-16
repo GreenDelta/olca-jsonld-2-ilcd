@@ -43,14 +43,14 @@ class ActorConverter implements Converter<Contact> {
 
 	private String convertAddress(JsonObject obj) {
 		String address = In.getString(obj, "address");
-		if (address == null || address.isEmpty())
+		if (address == null)
 			return null;
 		String zipCode = In.getString(obj, "zipCode");
-		if (zipCode != null && !zipCode.isEmpty()) {
+		if (zipCode != null) {
 			address += ", " + zipCode;
 		}
 		String city = In.getString(obj, "city");
-		if (city != null && !city.isEmpty()) {
+		if (city != null) {
 			address += " " + city;
 		}
 		return address;

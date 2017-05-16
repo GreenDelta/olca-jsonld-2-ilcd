@@ -2,6 +2,7 @@ package org.openlca.convert.jsonld.ilcd;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -15,18 +16,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-class Utils {
+class TestUtils {
 
 	private static final Gson gson = new Gson();
 
-	static Util createConfig(String testType) {
-		return new Util(null, null, (type, refId) -> parse(testType + "/" + type + "/" + refId + ".json"));
+	static Util createUtil(String testType) {
+		return createUtil(testType, new ArrayList<>());
 	}
 
-	private static JsonObject parse(String path) {
-		InputStream stream = Utils.class.getClassLoader().getResourceAsStream(path);
-		JsonElement element = gson.fromJson(new InputStreamReader(stream), JsonElement.class);
-		return element != null && element.isJsonObject() ? element.getAsJsonObject() : null;
+	static Util createUtil(String testType, List<String> globalParameterRefIds) {
+		return new Util(new Config(new Store(testType, globalParameterRefIds)));
 	}
 
 	static void assertClassification(Classification c, String catName, String catId) {
@@ -71,6 +70,37 @@ class Utils {
 				Assert.assertNull(value);
 			}
 		}
+	}
+
+	private static class Store implements JsonStore {
+
+		private final String testType;
+		private final List<String> globalParameterRefIds;
+
+		private Store(String testType, List<String> globalParameterRefIds) {
+			this.testType = testType;
+			this.globalParameterRefIds = globalParameterRefIds;
+		}
+
+		@Override
+		public JsonObject get(String type, String refId) {
+			String path = testType + "/" + type + "/" + refId + ".json";
+			InputStream stream = TestUtils.class.getClassLoader().getResourceAsStream(path);
+			JsonElement element = gson.fromJson(new InputStreamReader(stream), JsonElement.class);
+			return element != null && element.isJsonObject() ? element.getAsJsonObject() : null;
+		}
+
+		@Override
+		public List<JsonObject> getAll(String type) {
+			if (!"Parameter".equals(type))
+				return new ArrayList<>();
+			List<JsonObject> list = new ArrayList<>();
+			for (String refId : globalParameterRefIds) {
+				list.add(get("Parameter", refId));
+			}
+			return list;
+		}
+
 	}
 
 }

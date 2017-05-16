@@ -17,7 +17,7 @@ class CategoryConverter implements Converter<Classification> {
 	public Classification run(JsonObject obj) {
 		if (obj == null)
 			return new Classification();
-		JsonObject parent = In.getRef(obj, "category", util.store);
+		JsonObject parent = In.getRef(obj, "category", util.config.store);
 		Classification classification = run(parent);
 		Category c = createCategory(obj);
 		c.level = classification.categories.size();

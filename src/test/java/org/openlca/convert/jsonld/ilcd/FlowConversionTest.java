@@ -5,6 +5,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.openlca.ilcd.commons.FlowType;
 import org.openlca.ilcd.flows.Compartment;
 import org.openlca.ilcd.flows.DataSetInfo;
 import org.openlca.ilcd.flows.Flow;
@@ -23,6 +24,7 @@ public class FlowConversionTest {
 		Assert.assertEquals("00.00.000", flow.adminInfo.publication.version);
 		Assert.assertEquals("2017-05-12T12:10:11.142+02:00", flow.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = flow.flowInfo.dataSetInfo;
+		Assert.assertEquals(FlowType.ELEMENTARY_FLOW, flow.modelling.lciMethod.flowType);
 		FlowCategoryInfo classification = info.classificationInformation;
 		TestUtils.assertNull(classification.classifications);
 		TestUtils.assertNull(classification.compartmentLists.get(0).compartments);
@@ -41,6 +43,7 @@ public class FlowConversionTest {
 		Assert.assertEquals("2017-05-12T13:02:23.092+02:00", flow.adminInfo.dataEntry.timeStamp.toString());
 		DataSetInfo info = flow.flowInfo.dataSetInfo;
 		TestUtils.assertLangString(info.generalComment, "This is a complete elementary flow");
+		Assert.assertEquals(FlowType.ELEMENTARY_FLOW, flow.modelling.lciMethod.flowType);
 		Assert.assertEquals("12345-67-8", info.casNumber);
 		Assert.assertEquals("O2", info.sumFormula);
 		TestUtils.assertLangString(info.synonyms, "Synonym");

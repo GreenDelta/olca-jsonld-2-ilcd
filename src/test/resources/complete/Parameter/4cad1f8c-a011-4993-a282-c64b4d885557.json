@@ -1,0 +1,1 @@
+{"@context":"http://greendelta.github.io/olca-schema/context.jsonld","@type":"Parameter","@id":"4cad1f8c-a011-4993-a282-c64b4d885557","name":"glob","description":"","version":"00.00.001","lastChange":"2017-05-16T18:45:26.217+02:00","parameterScope":"GLOBAL_SCOPE","inputParameter":true,"value":2.0}

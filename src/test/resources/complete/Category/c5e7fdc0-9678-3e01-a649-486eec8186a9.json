@@ -1,0 +1,1 @@
+{"@context":"http://greendelta.github.io/olca-schema/context.jsonld","@type":"Category","@id":"c5e7fdc0-9678-3e01-a649-486eec8186a9","name":"Sub","version":"00.00.000","category":{"@type":"Category","@id":"c15ba4cf-a94f-368f-ad08-74b8f5822f21","name":"Main"},"modelType":"PROCESS"}

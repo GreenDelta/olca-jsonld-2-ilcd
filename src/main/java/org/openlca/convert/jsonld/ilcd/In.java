@@ -2,7 +2,6 @@ package org.openlca.convert.jsonld.ilcd;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.function.Function;
 
 import javax.xml.bind.DatatypeConverter;
@@ -80,23 +79,6 @@ final class In {
 			return null;
 		try {
 			return DatatypeFactory.newInstance().newXMLGregorianCalendar(value);
-		} catch (Exception e) {
-			Logger log = LoggerFactory.getLogger(In.class);
-			log.error("failed to create XML calendar for time " + value, e);
-			return null;
-		}
-	}
-
-	static XMLGregorianCalendar getTime(JsonObject obj, String property) {
-		if (obj == null)
-			return null;
-		Long value = getLong(obj, property);
-		if (value == null)
-			return null;
-		try {
-			GregorianCalendar cal = new GregorianCalendar();
-			cal.setTimeInMillis(value);
-			return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
 		} catch (Exception e) {
 			Logger log = LoggerFactory.getLogger(In.class);
 			log.error("failed to create XML calendar for time " + value, e);

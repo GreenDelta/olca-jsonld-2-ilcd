@@ -1,1 +1,1 @@
-{"@context":"http://greendelta.github.io/olca-schema/context.jsonld","@type":"Location","@id":"5f02f088-9301-3d7b-a1ac-972c11bf3e7d","name":"Germany","description":"","version":"00.00.000","lastChange":"2017-05-12T12:03:29.041+02:00","code":"DE","latitude":0.0,"longitude":0.0}
+{"@context":"http://greendelta.github.io/olca-schema/context.jsonld","@type":"Location","@id":"5f02f088-9301-3d7b-a1ac-972c11bf3e7d","name":"Germany","description":"","version":"00.00.000","lastChange":"2017-05-12T12:03:29.041+02:00","code":"DE","latitude":51.11,"longitude":9.85}

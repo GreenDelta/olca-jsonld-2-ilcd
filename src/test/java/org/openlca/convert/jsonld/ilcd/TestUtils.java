@@ -3,6 +3,8 @@ package org.openlca.convert.jsonld.ilcd;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -60,6 +62,16 @@ class TestUtils {
 		assertLangString(ref.name, name);
 	}
 
+	static void assertDate(Date expectedDate, Date actualDate) {
+		Calendar actual = Calendar.getInstance();
+		actual.setTime(actualDate);
+		Calendar expected = Calendar.getInstance();
+		expected.setTime(expectedDate);
+		Assert.assertEquals(expected.get(Calendar.DAY_OF_MONTH), actual.get(Calendar.DAY_OF_MONTH));
+		Assert.assertEquals(expected.get(Calendar.MONTH), actual.get(Calendar.MONTH));
+		Assert.assertEquals(expected.get(Calendar.YEAR), actual.get(Calendar.YEAR));
+	}
+
 	static void assertNull(Object... values) {
 		if (values == null)
 			return;
@@ -70,6 +82,14 @@ class TestUtils {
 				Assert.assertNull(value);
 			}
 		}
+	}
+
+	static Date toDate(int day, int month, int year) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		cal.set(Calendar.MONTH, month - 1);
+		cal.set(Calendar.YEAR, year);
+		return cal.getTime();
 	}
 
 	private static class Store implements JsonStore {

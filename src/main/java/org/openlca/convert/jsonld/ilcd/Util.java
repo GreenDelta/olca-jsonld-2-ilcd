@@ -2,6 +2,9 @@ package org.openlca.convert.jsonld.ilcd;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 import org.openlca.ilcd.commons.Classification;
 import org.openlca.ilcd.commons.DataEntry;
@@ -12,6 +15,8 @@ import org.openlca.ilcd.commons.Ref;
 import org.openlca.ilcd.sources.FileRef;
 import org.openlca.ilcd.util.Refs;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 class Util {
@@ -104,6 +109,43 @@ class Util {
 		if (value == null || value.isEmpty())
 			return;
 		LangString.set(list, value, config.lang);
+	}
+
+	void putAttribute(String name, Map<QName, String> map, String value) {
+		if (name == null || value == null || map == null)
+			return;
+		QName qName = new QName("http://openlca.org/ilcd-extensions", name);
+		map.put(qName, value);
+	}
+
+	double getPropertyFactor(JsonObject obj) {
+		JsonObject flow = In.getObject(obj, "flow");
+		JsonObject property = In.getObject(obj, "flowProperty");
+		if (flow == null || property == null)
+			return 1;
+		String propertyId = In.getString(property, "@id");
+		String flowId = In.getString(flow, "@id");
+		flow = config.store.get("Flow", flowId);
+		JsonArray factors = In.getArray(flow, "flowProperties");
+		if (factors == null)
+			return 1;
+		JsonObject correctFactor = null;
+		for (JsonElement elem : factors) {
+			JsonObject factor = elem.getAsJsonObject();
+			String propId = In.getString(In.getObject(factor, "flowProperty"), "@id");
+			if (!propId.equals(propertyId))
+				continue;
+			correctFactor = factor;
+			break;
+		}
+		return In.getDouble(correctFactor, "conversionFactor", 1);
+	}
+
+	double getUnitFactor(JsonObject obj) {
+		JsonObject elem = In.getObject(obj, "unit");
+		if (elem == null)
+			return 1;
+		return In.getDouble(elem, "conversionFactor", 1);
 	}
 
 }

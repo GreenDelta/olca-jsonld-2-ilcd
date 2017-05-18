@@ -7,8 +7,6 @@ import org.openlca.ilcd.processes.ParameterSection;
 import org.openlca.ilcd.processes.Process;
 import org.openlca.ilcd.util.ExchangeExtension;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 class ExchangeConverter {
@@ -34,40 +32,10 @@ class ExchangeConverter {
 	}
 
 	private double calculateAmount(JsonObject obj) {
-		double propertyFactor = getPropertyFactor(obj);
-		double unitFactor = getUnitFactor(obj);
+		double propertyFactor = util.getPropertyFactor(obj);
+		double unitFactor = util.getUnitFactor(obj);
 		double amount = In.getDouble(obj, "amount", 0);
 		return amount * propertyFactor * unitFactor;
-	}
-
-	private double getPropertyFactor(JsonObject obj) {
-		JsonObject flow = In.getObject(obj, "flow");
-		JsonObject property = In.getObject(obj, "flowProperty");
-		if (flow == null || property == null)
-			return 1;
-		String propertyId = In.getString(property, "@id");
-		String flowId = In.getString(flow, "@id");
-		flow = util.config.store.get("Flow", flowId);
-		JsonArray factors = In.getArray(flow, "flowProperties");
-		if (factors == null)
-			return 1;
-		JsonObject correctFactor = null;
-		for (JsonElement elem : factors) {
-			JsonObject factor = elem.getAsJsonObject();
-			String propId = In.getString(In.getObject(factor, "flowProperty"), "@id");
-			if (!propId.equals(propertyId))
-				continue;
-			correctFactor = factor;
-			break;
-		}
-		return In.getDouble(correctFactor, "conversionFactor", 1);
-	}
-
-	private double getUnitFactor(JsonObject obj) {
-		JsonObject elem = In.getObject(obj, "unit");
-		if (elem == null)
-			return 1;
-		return In.getDouble(elem, "conversionFactor", 1);
 	}
 
 	private void mapExtensions(JsonObject obj, Exchange exchange) {

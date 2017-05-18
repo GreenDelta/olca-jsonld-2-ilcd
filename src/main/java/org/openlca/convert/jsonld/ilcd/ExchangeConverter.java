@@ -60,7 +60,7 @@ class ExchangeConverter {
 			correctFactor = factor;
 			break;
 		}
-		return In.getDouble(correctFactor, "conversionFactor");
+		return In.getDouble(correctFactor, "conversionFactor", 1);
 	}
 
 	private double getUnitFactor(JsonObject obj) {

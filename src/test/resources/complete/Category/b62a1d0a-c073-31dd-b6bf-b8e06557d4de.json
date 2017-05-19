@@ -1,0 +1,1 @@
+{"@context":"http://greendelta.github.io/olca-schema/context.jsonld","@type":"Category","@id":"b62a1d0a-c073-31dd-b6bf-b8e06557d4de","name":"Sub","version":"00.00.000","category":{"@type":"Category","@id":"cd19a26a-745c-35f6-8aa6-f890b4ab2219","name":"Main"},"modelType":"PRODUCT_SYSTEM"}

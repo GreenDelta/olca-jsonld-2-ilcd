@@ -121,6 +121,10 @@ class Util {
 	double getPropertyFactor(JsonObject obj) {
 		JsonObject flow = In.getObject(obj, "flow");
 		JsonObject property = In.getObject(obj, "flowProperty");
+		return getPropertyFactor(flow, property);
+	}
+	
+	double getPropertyFactor(JsonObject flow, JsonObject property) {
 		if (flow == null || property == null)
 			return 1;
 		String propertyId = In.getString(property, "@id");
@@ -143,8 +147,6 @@ class Util {
 
 	double getUnitFactor(JsonObject obj) {
 		JsonObject elem = In.getObject(obj, "unit");
-		if (elem == null)
-			return 1;
 		return In.getDouble(elem, "conversionFactor", 1);
 	}
 

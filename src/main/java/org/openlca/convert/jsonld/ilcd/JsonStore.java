@@ -8,6 +8,8 @@ public interface JsonStore {
 
 	JsonObject get(String type, String refId);
 
-	List<JsonObject> getAll(String type);
+	byte[] getExternalFile(String sourceRefId, String filename);
+
+	List<JsonObject> getGlobalParameters();
 
 }

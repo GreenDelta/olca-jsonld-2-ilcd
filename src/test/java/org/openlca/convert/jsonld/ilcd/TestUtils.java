@@ -27,7 +27,7 @@ class TestUtils {
 	}
 
 	static Util createUtil(String testType, List<String> globalParameterRefIds) {
-		return new Util(new Config(new Store(testType, globalParameterRefIds)));
+		return new Util(new Config(new Store(testType, globalParameterRefIds), null));
 	}
 
 	static void assertClassification(Classification c, String catName, String catId) {
@@ -111,14 +111,17 @@ class TestUtils {
 		}
 
 		@Override
-		public List<JsonObject> getAll(String type) {
-			if (!"Parameter".equals(type))
-				return new ArrayList<>();
+		public List<JsonObject> getGlobalParameters() {
 			List<JsonObject> list = new ArrayList<>();
 			for (String refId : globalParameterRefIds) {
 				list.add(get("Parameter", refId));
 			}
 			return list;
+		}
+
+		@Override
+		public byte[] getExternalFile(String sourceRefId, String filename) {
+			return null;
 		}
 
 	}

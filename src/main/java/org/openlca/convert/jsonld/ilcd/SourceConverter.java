@@ -2,6 +2,7 @@ package org.openlca.convert.jsonld.ilcd;
 
 import org.openlca.ilcd.sources.AdminInfo;
 import org.openlca.ilcd.sources.DataSetInfo;
+import org.openlca.ilcd.sources.FileRef;
 import org.openlca.ilcd.sources.Source;
 import org.openlca.ilcd.sources.SourceInfo;
 
@@ -34,6 +35,12 @@ class SourceConverter implements Converter<Source> {
 		util.setLangString(info.description, In.getString(obj, "description"));
 		info.classifications.add(util.createClassification(obj));
 		info.citation = createCitation(obj);
+		String externalFile = In.getString(obj, "externalFile");
+		if (externalFile != null) {
+			FileRef fileRef = new FileRef();
+			fileRef.uri =  "../external_docs/" + externalFile;
+			info.files.add(fileRef);
+		}
 		return info;
 	}
 

@@ -119,7 +119,7 @@ class ProcessConverter implements Converter<Process> {
 			Parameter param = converter.run(elem.getAsJsonObject(), ParameterConverter.SCOPE_PROCESS);
 			section.parameters.add(param);
 		}
-		List<JsonObject> globalParameters = util.config.store.getAll("Parameter");
+		List<JsonObject> globalParameters = util.config.store.getGlobalParameters();
 		for (JsonObject parameter : globalParameters) {
 			Parameter param = converter.run(parameter, ParameterConverter.SCOPE_GLOBAL);
 			section.parameters.add(param);

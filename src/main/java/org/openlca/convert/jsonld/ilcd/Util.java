@@ -63,6 +63,9 @@ class Util {
 		ref.type = getType(obj);
 		ref.uri = "../" + getUriPart(ref.type) + "/" + In.getString(obj, "@id");
 		setLangString(ref.name, In.getString(obj, "name"));
+		if (config.refCallback != null) {
+			config.refCallback.throwRef(In.getString(obj, "@type"), ref.uuid);
+		}
 		return ref;
 	}
 
@@ -123,7 +126,7 @@ class Util {
 		JsonObject property = In.getObject(obj, "flowProperty");
 		return getPropertyFactor(flow, property);
 	}
-	
+
 	double getPropertyFactor(JsonObject flow, JsonObject property) {
 		if (flow == null || property == null)
 			return 1;

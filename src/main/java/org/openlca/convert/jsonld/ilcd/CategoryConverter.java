@@ -5,7 +5,7 @@ import org.openlca.ilcd.commons.Classification;
 
 import com.google.gson.JsonObject;
 
-class CategoryConverter implements Converter<Classification> {
+class CategoryConverter {
 
 	private final Util util;
 
@@ -13,7 +13,6 @@ class CategoryConverter implements Converter<Classification> {
 		this.util = util;
 	}
 
-	@Override
 	public Classification run(JsonObject obj) {
 		if (obj == null)
 			return new Classification();

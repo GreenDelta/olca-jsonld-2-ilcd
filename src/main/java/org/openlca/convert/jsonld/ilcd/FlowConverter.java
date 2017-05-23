@@ -20,6 +20,7 @@ import org.openlca.ilcd.flows.FlowPropertyRef;
 import org.openlca.ilcd.flows.Geography;
 import org.openlca.ilcd.flows.LCIMethod;
 import org.openlca.ilcd.flows.Modelling;
+import org.openlca.ilcd.flows.QuantitativeReference;
 import org.openlca.ilcd.util.Refs;
 
 import com.google.gson.JsonArray;
@@ -44,6 +45,8 @@ class FlowConverter implements Converter<Flow> {
 		flow.flowInfo = new FlowInfo();
 		flow.flowInfo.dataSetInfo = createDataSetInfo(obj);
 		flow.flowInfo.geography = createGeography(obj);
+		flow.flowInfo.quantitativeReference = new QuantitativeReference();
+		flow.flowInfo.quantitativeReference.referenceFlowProperty = 0;
 		flow.modelling = createModelling(obj);
 		flow.flowPropertyList = new FlowPropertyList();
 		flow.flowPropertyList.flowProperties.addAll(createFlowProperties(obj));

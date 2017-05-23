@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openlca.ilcd.commons.QuantitativeReferenceType;
 import org.openlca.ilcd.commons.Time;
 import org.openlca.ilcd.processes.DataSetInfo;
 import org.openlca.ilcd.processes.Exchange;
@@ -17,6 +18,7 @@ import org.openlca.ilcd.processes.ParameterSection;
 import org.openlca.ilcd.processes.Process;
 import org.openlca.ilcd.processes.ProcessInfo;
 import org.openlca.ilcd.processes.ProcessName;
+import org.openlca.ilcd.processes.QuantitativeReference;
 import org.openlca.ilcd.processes.Technology;
 import org.openlca.ilcd.util.TimeExtension;
 
@@ -45,6 +47,9 @@ class ProcessConverter implements Converter<Process> {
 		process.processInfo.time = createTime(doc);
 		process.processInfo.technology = createTechnology(doc);
 		process.processInfo.parameters = createParameters(obj);
+		process.processInfo.quantitativeReference = new QuantitativeReference();
+		process.processInfo.quantitativeReference.type = QuantitativeReferenceType.REFERENCE_FLOWS;
+		process.processInfo.quantitativeReference.referenceFlows.add(0);
 		process.adminInfo = new ProcessAdminInfo(util).create(obj);
 		process.modelling = new ProcessModelling(util).create(obj);
 		// Map contains the flow id for product outputs, exchange id otherwise

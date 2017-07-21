@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.openlca</groupId>
 	<artifactId>olca-jsonld-2-ilcd</artifactId>
-	<version>1.6.3</version>
+	<version>1.7.0</version>
 	<packaging>jar</packaging>
 	<name>JSON-LD-2-ILCD</name>
 

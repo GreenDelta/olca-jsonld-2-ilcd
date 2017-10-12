@@ -89,11 +89,10 @@ class ExchangeConverter {
 	}
 
 	private void addParameter(Parameter parameter, Process process) {
-		ParameterSection section = process.processInfo.parameters;
-		if (section == null) {
+		if (process.processInfo.parameters == null) {
 			process.processInfo.parameters = new ParameterSection();
 		}
-		section.parameters.add(parameter);
+		process.processInfo.parameters.parameters.add(parameter);
 	}
 
 }

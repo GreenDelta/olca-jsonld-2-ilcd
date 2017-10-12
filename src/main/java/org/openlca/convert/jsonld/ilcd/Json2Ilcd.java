@@ -52,12 +52,7 @@ public class Json2Ilcd {
 		checkType(obj, "Process");
 		return new ProcessConverter(util).run(obj);
 	}
-
-	public Process convertProductSystem(JsonObject obj) {
-		checkType(obj, "ProductSystem");
-		return new ProductSystemConverter(util).run(obj);
-	}
-
+	
 	public List<LCIAMethod> convertImpactMethod(JsonObject obj) {
 		checkType(obj, "ImpactMethod");
 		List<LCIAMethod> categories = new ArrayList<>();

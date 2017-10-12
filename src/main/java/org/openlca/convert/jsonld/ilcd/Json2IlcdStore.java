@@ -73,9 +73,6 @@ public class Json2IlcdStore {
 			case "Process":
 				ilcdStore.put(converter.convertProcess(obj));
 				break;
-			case "ProductSystem":
-				ilcdStore.put(converter.convertProductSystem(obj));
-				break;
 			case "ImpactMethod":
 				List<LCIAMethod> categories = converter.convertImpactMethod(obj);
 				for (LCIAMethod category : categories) {
@@ -83,7 +80,7 @@ public class Json2IlcdStore {
 				}
 				break;
 			default:
-				throw new IllegalArgumentException("Unsupported type: " + type);
+				log.warn("Unsupported type: " + type);
 			}
 		} catch (DataStoreException e) {
 			log.error("Error converting JSON to ILCD", e);

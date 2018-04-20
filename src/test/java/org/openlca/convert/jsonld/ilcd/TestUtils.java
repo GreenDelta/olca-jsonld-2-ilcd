@@ -2,12 +2,11 @@ package org.openlca.convert.jsonld.ilcd;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.openlca.ilcd.commons.Category;
 import org.openlca.ilcd.commons.Classification;
@@ -17,6 +16,8 @@ import org.openlca.ilcd.commons.Ref;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import junit.framework.Assert;
 
 class TestUtils {
 
@@ -105,9 +106,14 @@ class TestUtils {
 		@Override
 		public JsonObject get(String type, String refId) {
 			String path = testType + "/" + type + "/" + refId + ".json";
-			InputStream stream = TestUtils.class.getClassLoader().getResourceAsStream(path);
-			JsonElement element = gson.fromJson(new InputStreamReader(stream), JsonElement.class);
-			return element != null && element.isJsonObject() ? element.getAsJsonObject() : null;
+			ClassLoader cl = TestUtils.class.getClassLoader();
+			try (InputStream is = cl.getResourceAsStream(path);
+					Reader reader = new InputStreamReader(is, "utf-8")) {
+				JsonElement e = gson.fromJson(reader, JsonElement.class);
+				return e != null && e.isJsonObject() ? e.getAsJsonObject() : null;
+			} catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
 		}
 
 		@Override

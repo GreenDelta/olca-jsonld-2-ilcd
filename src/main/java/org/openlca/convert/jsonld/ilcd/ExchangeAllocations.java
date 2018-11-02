@@ -33,9 +33,11 @@ class ExchangeAllocations {
 	}
 
 	private static void addFactor(double value, JsonObject exchange, JsonObject product, Map<String, Exchange> map) {
-		AllocationFactor factor = new AllocationFactor();
 		String productId = In.getString(product, "@id");
 		String exchangeId = In.getString(exchange, "@id");
+		if (map.get(productId) == null || map.get(exchangeId) == null) 
+			return;
+		AllocationFactor factor = new AllocationFactor();
 		factor.fraction = value * 100;
 		factor.productExchangeId = map.get(productId).id;
 		map.get(exchangeId).add(factor);

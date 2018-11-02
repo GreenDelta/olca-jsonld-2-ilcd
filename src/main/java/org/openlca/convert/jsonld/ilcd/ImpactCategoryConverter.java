@@ -48,6 +48,8 @@ class ImpactCategoryConverter implements Converter<LCIAMethod> {
 	private FactorList createFactors(JsonObject obj) {
 		FactorList list = new FactorList();
 		JsonArray factors = In.getArray(obj, "impactFactors");
+		if (factors == null)
+			return list;
 		for (JsonElement elem : factors) {
 			JsonObject fObj = elem.getAsJsonObject();
 			Factor factor = new Factor();

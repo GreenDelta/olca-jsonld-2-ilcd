@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openlca.ilcd.io.DataStore;
-import org.openlca.ilcd.io.DataStoreException;
 import org.openlca.ilcd.methods.LCIAMethod;
 import org.openlca.ilcd.sources.FileRef;
 import org.openlca.ilcd.sources.Source;
@@ -82,7 +81,7 @@ public class Json2IlcdStore {
 			default:
 				log.warn("Unsupported type: " + type);
 			}
-		} catch (DataStoreException e) {
+		} catch (Exception e) {
 			log.error("Error converting JSON to ILCD", e);
 		}
 	}

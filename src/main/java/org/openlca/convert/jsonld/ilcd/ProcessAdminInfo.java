@@ -1,6 +1,7 @@
 package org.openlca.convert.jsonld.ilcd;
 
 import org.openlca.ilcd.commons.CommissionerAndGoal;
+import org.openlca.ilcd.commons.DataSetType;
 import org.openlca.ilcd.processes.AdminInfo;
 import org.openlca.ilcd.processes.DataEntry;
 import org.openlca.ilcd.processes.DataGenerator;
@@ -30,8 +31,9 @@ class ProcessAdminInfo {
 	private Publication createPublication(JsonObject obj, JsonObject doc) {
 		Publication pub = new Publication();
 		pub.version = In.getString(obj, "version");
-		String uriPart = util.getUriPart(util.getType(obj));
-		pub.uri = util.config.baseUri + uriPart + "/" + In.getString(obj, "@id");
+		DataSetType type = util.getType(obj);
+		String refId = In.getString(obj, "@id");
+		pub.uri = util.config.createPublicationLink(type, refId);
 		pub.lastRevision = In.getTimestamp(obj, "lastChange");
 		if (doc == null)
 			return pub;

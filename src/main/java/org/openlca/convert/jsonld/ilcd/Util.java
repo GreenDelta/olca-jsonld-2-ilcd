@@ -30,8 +30,9 @@ class Util {
 	Publication createPublication(JsonObject obj) {
 		Publication pub = new Publication();
 		pub.version = In.getString(obj, "version");
-		String uriPart = getUriPart(getType(obj));
-		pub.uri = config.baseUri + uriPart + "/" + In.getString(obj, "@id");
+		DataSetType type = getType(obj);
+		String refId = In.getString(obj, "@id");
+		pub.uri = config.createPublicationLink(type, refId);
 		return pub;
 	}
 

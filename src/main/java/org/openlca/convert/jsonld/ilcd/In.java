@@ -1,10 +1,13 @@
 package org.openlca.convert.jsonld.ilcd;
 
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.function.Function;
 
-import javax.xml.bind.DatatypeConverter;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -56,10 +59,36 @@ final class In {
 
 	static Date getDate(JsonObject obj, String property) {
 		String date = getString(obj, property);
-		if (date == null)
+		return parseDate(date);
+	}
+	
+	private static Date parseDate(String str) {
+		if (str == null || str.isEmpty())
 			return null;
-		Calendar cal = DatatypeConverter.parseDateTime(date);
-		return cal == null ? null : cal.getTime();
+		try {
+			if (str.length() < 18) {
+				// try to parse date strings like "2015-05-23"
+				if (str.length() > 10) {
+					// in older versions may have a zone offset
+					// like "2015-05-23+02:00"
+					str = str.substring(0, 10);
+				}
+				LocalDate date = LocalDate.parse(str);
+				long seconds = date.toEpochSecond(LocalTime.MIN, ZoneOffset.UTC);
+				return Date.from(Instant.ofEpochSecond(seconds));
+			}
+			if (str.endsWith("Z")) {
+				// assume UTC time input
+				Instant instant = Instant.parse(str);
+				return Date.from(instant);
+			}
+			// assume offset time
+			OffsetDateTime offset = OffsetDateTime.parse(str);
+			return Date.from(offset.toInstant());
+		} catch (Exception e) {
+			LoggerFactory.getLogger(In.class).error("failed to parse date / time: " + str, e);
+			return null;
+		}
 	}
 
 	static JsonObject getRef(JsonObject obj, String property, JsonStore store) {

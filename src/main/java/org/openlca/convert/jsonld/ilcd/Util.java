@@ -61,7 +61,7 @@ class Util {
 		ref.version = "01.00.000";
 		ref.uuid = In.getString(obj, "@id");
 		ref.type = getType(obj);
-		ref.uri = "../" + getUriPart(ref.type) + "/" + In.getString(obj, "@id");
+		ref.uri = "../" + getUriPart(ref.type) + "/" + In.getString(obj, "@id") + ".xml";
 		setLangString(ref.name, In.getString(obj, "name"));
 		if (config.refCallback != null) {
 			config.refCallback.throwRef(In.getString(obj, "@type"), ref.uuid);

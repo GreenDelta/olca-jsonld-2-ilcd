@@ -30,10 +30,10 @@ public class Json2IlcdStore {
 		tmpDir = Files.createTempDirectory("Json2ilcdStore").toFile();
 	}
 
-	public Json2IlcdStore(JsonStore jsonStore, DataStore ilcdStore, RefCallback convertRef) throws IOException {
-		this.jsonStore = jsonStore;
+	public Json2IlcdStore(DataStore ilcdStore, Config config) throws IOException {
+		this.jsonStore = config.store;
 		this.ilcdStore = ilcdStore;
-		this.converter = new Json2Ilcd(new Config(jsonStore, convertRef));
+		this.converter = new Json2Ilcd(config);
 		tmpDir = Files.createTempDirectory("Json2ilcdStore").toFile();
 	}
 

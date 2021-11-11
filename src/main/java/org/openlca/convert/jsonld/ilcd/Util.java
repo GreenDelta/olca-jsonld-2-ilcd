@@ -30,8 +30,9 @@ class Util {
 	Publication createPublication(JsonObject obj) {
 		Publication pub = new Publication();
 		pub.version = In.getString(obj, "version");
-		String uriPart = getUriPart(getType(obj));
-		pub.uri = config.baseUri + uriPart + "/" + In.getString(obj, "@id");
+		DataSetType type = getType(obj);
+		String refId = In.getString(obj, "@id");
+		pub.uri = config.createPublicationLink(type, refId);
 		return pub;
 	}
 
@@ -61,7 +62,7 @@ class Util {
 		ref.version = "01.00.000";
 		ref.uuid = In.getString(obj, "@id");
 		ref.type = getType(obj);
-		ref.uri = "../" + getUriPart(ref.type) + "/" + In.getString(obj, "@id");
+		ref.uri = "../" + getUriPart(ref.type) + "/" + In.getString(obj, "@id") + ".xml";
 		setLangString(ref.name, In.getString(obj, "name"));
 		if (config.refCallback != null) {
 			config.refCallback.throwRef(In.getString(obj, "@type"), ref.uuid);

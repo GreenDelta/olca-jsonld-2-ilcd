@@ -1,7 +1,6 @@
 package org.openlca.convert.jsonld.ilcd;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.openlca.ilcd.contacts.Contact;
 import org.openlca.ilcd.contacts.DataSetInfo;
@@ -45,7 +44,7 @@ public class ActorConversionTest {
 	private Contact convert(String testType, String id) {
 		Util util = TestUtils.createUtil(testType);
 		ActorConverter converter = new ActorConverter(util);
-		JsonObject actor = util.config.store.get("Actor", id);
+		JsonObject actor = In.parse(util.config.store.get("Actor", id));
 		return converter.run(actor);
 	}
 

@@ -133,7 +133,7 @@ class Util {
 			return 1;
 		String propertyId = In.getString(property, "@id");
 		String flowId = In.getString(flow, "@id");
-		flow = config.store.get("Flow", flowId);
+		flow = In.parse(config.store.get("Flow", flowId));
 		JsonArray factors = In.getArray(flow, "flowProperties");
 		if (factors == null)
 			return 1;

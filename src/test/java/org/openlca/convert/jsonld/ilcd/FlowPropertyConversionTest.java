@@ -1,7 +1,6 @@
 package org.openlca.convert.jsonld.ilcd;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.openlca.ilcd.commons.Ref;
 import org.openlca.ilcd.flowproperties.DataSetInfo;
@@ -44,7 +43,7 @@ public class FlowPropertyConversionTest {
 	private FlowProperty convert(String testType, String id) {
 		Util util = TestUtils.createUtil(testType);
 		FlowPropertyConverter converter = new FlowPropertyConverter(util);
-		JsonObject property = util.config.store.get("FlowProperty", id);
+		JsonObject property = In.parse(util.config.store.get("FlowProperty", id));
 		return converter.run(property);
 	}
 

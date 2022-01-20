@@ -4,8 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.openlca.ilcd.commons.DataSetType;
 import org.openlca.ilcd.commons.ExchangeDirection;
@@ -143,7 +142,7 @@ public class ProcessConversionTest {
 
 	private void assertParameter(Parameter parameter, String formula, double value, String description) {
 		Assert.assertEquals(formula, parameter.formula);
-		Assert.assertEquals(value, parameter.mean);
+		Assert.assertEquals(value, parameter.mean, 0d);
 		if (description == null) {
 			TestUtils.assertNull(parameter.comment);
 		} else {
@@ -160,13 +159,13 @@ public class ProcessConversionTest {
 		switch (parameter.distribution) {
 		case LOG_NORMAL:
 		case NORMAL:
-			Assert.assertEquals((double) v1, (double) parameter.dispersion);
+			Assert.assertEquals((double) v1, (double) parameter.dispersion, 0d);
 			TestUtils.assertNull(parameter.min, parameter.max);
 			break;
 		case TRIANGULAR:
 		case UNIFORM:
-			Assert.assertEquals((double) v1, (double) parameter.min);
-			Assert.assertEquals((double) v2, (double) parameter.max);
+			Assert.assertEquals((double) v1, (double) parameter.min, 0d);
+			Assert.assertEquals((double) v2, (double) parameter.max, 0d);
 			TestUtils.assertNull(parameter.dispersion);
 			break;
 		default:
@@ -263,7 +262,7 @@ public class ProcessConversionTest {
 
 	private void assertExchange(Exchange exchange, boolean input, double amount, boolean ref, boolean checkIds) {
 		Assert.assertEquals(input ? ExchangeDirection.INPUT : ExchangeDirection.OUTPUT, exchange.direction);
-		Assert.assertEquals(amount, exchange.resultingAmount);
+		Assert.assertEquals(amount, exchange.resultingAmount, 0d);
 		ExchangeExtension ext = new ExchangeExtension(exchange);
 		if (checkIds) {
 			Assert.assertEquals("4cb61669-4853-4556-9667-4a4a22d3f169", ext.getPropertyId());
@@ -293,13 +292,13 @@ public class ProcessConversionTest {
 		switch (exchange.uncertaintyDistribution) {
 		case LOG_NORMAL:
 		case NORMAL:
-			Assert.assertEquals((double) v1, (double) sd);
+			Assert.assertEquals((double) v1, (double) sd, 0d);
 			TestUtils.assertNull(exchange.minimumAmount, exchange.maximumAmount);
 			break;
 		case TRIANGULAR:
 		case UNIFORM:
-			Assert.assertEquals((double) v1, (double) exchange.minimumAmount);
-			Assert.assertEquals((double) v2, (double) exchange.maximumAmount);
+			Assert.assertEquals((double) v1, (double) exchange.minimumAmount, 0d);
+			Assert.assertEquals((double) v2, (double) exchange.maximumAmount, 0d);
 			TestUtils.assertNull(sd);
 			break;
 		default:
@@ -324,7 +323,7 @@ public class ProcessConversionTest {
 	private Process convert(String testType, String id) {
 		Util util = TestUtils.createUtil(testType);
 		ProcessConverter converter = new ProcessConverter(util);
-		JsonObject process = util.config.store.get("Process", id);
+		JsonObject process = In.parse(util.config.store.get("Process", id));
 		return converter.run(process);
 	}
 

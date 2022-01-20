@@ -2,8 +2,7 @@ package org.openlca.convert.jsonld.ilcd;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.openlca.ilcd.commons.FlowType;
 import org.openlca.ilcd.flows.Compartment;
@@ -67,7 +66,7 @@ public class FlowConversionTest {
 		Assert.assertEquals(id, (int) property.dataSetInternalID);
 		Assert.assertEquals(uuid, property.flowProperty.uuid);
 		TestUtils.assertLangString(property.flowProperty.name, name);
-		Assert.assertEquals(factor, property.meanValue);
+		Assert.assertEquals(factor, property.meanValue, 0d);
 	}
 
 	private void assertCompartment(List<Compartment> compartments, int index, String uuid, String name) {
@@ -80,7 +79,7 @@ public class FlowConversionTest {
 	private Flow convert(String testType, String id) {
 		Util util = TestUtils.createUtil(testType);
 		FlowConverter converter = new FlowConverter(util);
-		JsonObject flow = util.config.store.get("Flow", id);
+		JsonObject flow = In.parse(util.config.store.get("Flow", id));
 		return converter.run(flow);
 	}
 

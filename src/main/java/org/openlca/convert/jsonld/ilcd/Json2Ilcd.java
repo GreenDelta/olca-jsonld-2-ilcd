@@ -61,7 +61,7 @@ public class Json2Ilcd {
 		JsonArray array = In.getArray(obj, "impactCategories");
 		for (JsonElement elem : array) {
 			String categoryRefId = In.getString(elem.getAsJsonObject(), "@id");
-			JsonObject category = util.config.store.get("ImpactCategory", categoryRefId);
+			JsonObject category = In.parse(util.config.store.get("ImpactCategory", categoryRefId));			
 			categories.add(convertImpactCategory(category, refId, name));
 		}
 		return categories;

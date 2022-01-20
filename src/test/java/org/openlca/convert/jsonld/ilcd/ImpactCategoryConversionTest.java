@@ -2,8 +2,7 @@ package org.openlca.convert.jsonld.ilcd;
 
 import javax.xml.namespace.QName;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.openlca.ilcd.methods.DataSetInfo;
 import org.openlca.ilcd.methods.Factor;
@@ -30,7 +29,7 @@ public class ImpactCategoryConversionTest {
 		TestUtils.assertNull(info.comment, info.classifications, info.otherAttributes.get(UNIT_QNAME));
 		Assert.assertEquals(1, method.characterisationFactors.factors.size());
 		Factor factor = method.characterisationFactors.factors.get(0);
-		Assert.assertEquals(1d, factor.meanValue);
+		Assert.assertEquals(1d, factor.meanValue, 0d);
 		TestUtils.assertLangString(factor.flow.name, "Flow");
 		Assert.assertEquals("9e4bce95-3d1e-41ef-8b7f-8f8dd109eb91", factor.flow.uuid);
 	}
@@ -50,7 +49,7 @@ public class ImpactCategoryConversionTest {
 		TestUtils.assertNull(info.classifications);
 		Assert.assertEquals(1, method.characterisationFactors.factors.size());
 		Factor factor = method.characterisationFactors.factors.get(0);
-		Assert.assertEquals(2d, factor.meanValue);
+		Assert.assertEquals(2d, factor.meanValue, 0d);
 		TestUtils.assertLangString(factor.flow.name, "Flow");
 		Assert.assertEquals("78404ba2-f6e6-47a6-99de-e7c8464f7c54", factor.flow.uuid);
 	}
@@ -58,7 +57,7 @@ public class ImpactCategoryConversionTest {
 	private LCIAMethod convert(String testType, String id) {
 		Util util = TestUtils.createUtil(testType);
 		ImpactCategoryConverter converter = new ImpactCategoryConverter(util, METHOD_ID, "Method");
-		JsonObject impactCategory = util.config.store.get("ImpactCategory", id);
+		JsonObject impactCategory = In.parse(util.config.store.get("ImpactCategory", id));
 		return converter.run(impactCategory);
 	}
 }

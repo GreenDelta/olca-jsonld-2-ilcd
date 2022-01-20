@@ -2,8 +2,7 @@ package org.openlca.convert.jsonld.ilcd;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.openlca.ilcd.units.DataSetInfo;
 import org.openlca.ilcd.units.Unit;
@@ -52,7 +51,7 @@ public class UnitGroupConversionTest {
 		Unit unit = units.get(index);
 		Assert.assertEquals(id, unit.id);
 		Assert.assertEquals(name, unit.name);
-		Assert.assertEquals(factor, unit.factor);
+		Assert.assertEquals(factor, unit.factor, 0d);
 		if (description != null) {
 			TestUtils.assertLangString(unit.comment, description);
 		} else {
@@ -63,7 +62,7 @@ public class UnitGroupConversionTest {
 	private UnitGroup convert(String testType, String id) {
 		Util util = TestUtils.createUtil(testType);
 		UnitGroupConverter converter = new UnitGroupConverter(util);
-		JsonObject group = util.config.store.get("UnitGroup", id);
+		JsonObject group = In.parse(util.config.store.get("UnitGroup", id));
 		return converter.run(group);
 	}
 

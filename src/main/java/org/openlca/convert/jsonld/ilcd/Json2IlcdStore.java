@@ -37,7 +37,8 @@ public class Json2IlcdStore {
 		tmpDir = Files.createTempDirectory("Json2ilcdStore").toFile();
 	}
 
-	public void convertAndPut(JsonObject obj) {
+	public void convertAndPut(String json) {
+		JsonObject obj = In.parse(json);
 		String type = In.getString(obj, "@type");
 		if (type == null)
 			throw new IllegalArgumentException("No type specified, can not convert");
@@ -100,8 +101,7 @@ public class Json2IlcdStore {
 	}
 
 	private void convertRef(String type, String refId) {
-		JsonObject obj = jsonStore.get(type, refId);
-		convertAndPut(obj);
+		convertAndPut(jsonStore.get(type, refId));
 	}
 
 }

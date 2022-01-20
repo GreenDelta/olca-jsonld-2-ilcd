@@ -25,7 +25,7 @@ public class CategoryConversionTest {
 	private Classification convert(String testType, String id) {
 		Util util = TestUtils.createUtil(testType);
 		CategoryConverter converter = new CategoryConverter(util);
-		JsonObject category = util.config.store.get("Category", id);
+		JsonObject category = In.parse(util.config.store.get("Category", id));
 		return converter.run(category);
 	}
 

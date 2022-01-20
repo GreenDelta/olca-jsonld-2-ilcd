@@ -1,7 +1,6 @@
 package org.openlca.convert.jsonld.ilcd;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.openlca.ilcd.sources.DataSetInfo;
 import org.openlca.ilcd.sources.Source;
@@ -40,7 +39,7 @@ public class SourceConversionTest {
 	private Source convert(String testType, String id) {
 		Util util = TestUtils.createUtil(testType);
 		SourceConverter converter = new SourceConverter(util);
-		JsonObject source = util.config.store.get("Source", id);
+		JsonObject source = In.parse(util.config.store.get("Source", id));
 		return converter.run(source);
 	}
 

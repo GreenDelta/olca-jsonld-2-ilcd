@@ -1,5 +1,6 @@
 package org.openlca.convert.jsonld.ilcd;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -7,21 +8,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.junit.Assert;
 import org.openlca.ilcd.commons.Category;
 import org.openlca.ilcd.commons.Classification;
 import org.openlca.ilcd.commons.LangString;
 import org.openlca.ilcd.commons.Ref;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import junit.framework.Assert;
-
 class TestUtils {
-
-	private static final Gson gson = new Gson();
 
 	static Util createUtil(String testType) {
 		return createUtil(testType, new ArrayList<>());
@@ -104,21 +99,21 @@ class TestUtils {
 		}
 
 		@Override
-		public JsonObject get(String type, String refId) {
+		public String get(String type, String refId) {
 			String path = testType + "/" + type + "/" + refId + ".json";
 			ClassLoader cl = TestUtils.class.getClassLoader();
 			try (InputStream is = cl.getResourceAsStream(path);
 					Reader reader = new InputStreamReader(is, "utf-8")) {
-				JsonElement e = gson.fromJson(reader, JsonElement.class);
-				return e != null && e.isJsonObject() ? e.getAsJsonObject() : null;
+				return new BufferedReader(new InputStreamReader(is))
+						.lines().collect(Collectors.joining("\n"));
 			} catch (Exception ex) {
 				throw new RuntimeException(ex);
 			}
 		}
 
 		@Override
-		public List<JsonObject> getGlobalParameters() {
-			List<JsonObject> list = new ArrayList<>();
+		public List<String> getGlobalParameters() {
+			List<String> list = new ArrayList<>();
 			for (String refId : globalParameterRefIds) {
 				list.add(get("Parameter", refId));
 			}

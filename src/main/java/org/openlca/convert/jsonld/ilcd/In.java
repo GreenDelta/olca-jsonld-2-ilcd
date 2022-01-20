@@ -14,12 +14,15 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 final class In {
+	
+	private final static Gson gson = new Gson();
 
 	private In() {
 	}
@@ -97,7 +100,7 @@ final class In {
 			return null;
 		String type = getString(ref, "@type");
 		String id = getString(ref, "@id");
-		return store.get(type, id);
+		return parse(store.get(type, id));
 	}
 
 	static XMLGregorianCalendar getTimestamp(JsonObject obj, String property) {
@@ -139,4 +142,8 @@ final class In {
 		return elem;
 	}
 
+	static JsonObject parse(String json) {
+		return json != null ? gson.fromJson(json, JsonObject.class) : null;
+	}
+	
 }
